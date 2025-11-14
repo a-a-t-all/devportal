@@ -12,18 +12,34 @@ spec:
     helm:
       releaseName: loki-stack
       values: |
-        # Run a simple, single-binary Loki for local dev
+        # Run Loki in simple monolithic (SingleBinary) mode for local dev
         deploymentMode: SingleBinary
 
         loki:
           auth_enabled: false
-          # Minimal storage config to satisfy the chart & use local filesystem
+
+          # Local filesystem storage inside the cluster (k3d/docker),
           storage:
             type: filesystem
             bucketNames:
               chunks: loki-chunks
               ruler: loki-ruler
               admin: loki-admin
+
+          # Use built-in test schema (no real persistence guarantees, fine for dev)
+          useTestSchema: true
+
+        # One single-binary replica
+        singleBinary:
+          replicas: 1
+
+        # Disable scalable modes so validation stops complaining
+        write:
+          replicas: 0
+        read:
+          replicas: 0
+        backend:
+          replicas: 0
 
   destination:
     server: https://kubernetes.default.svc
@@ -35,3 +51,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+
