@@ -19,8 +19,8 @@ spec:
           receivers:
             otlp:
               protocols:
-                http:
-                grpc:
+                http: {}
+                grpc: {}
           processors:
             batch: {}
           exporters:
