@@ -12,6 +12,11 @@ spec:
     helm:
       releaseName: promtail
       values: |
+        # Use the built-in initContainer from the chart to bump inotify limits
+        initContainer:
+          enabled: true
+          fsInotifyMaxUserInstances: 512
+
         config:
           clients:
             - url: http://loki-stack:3100/loki/api/v1/push
