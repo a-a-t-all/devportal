@@ -15,9 +15,14 @@ spec:
         config:
           clients:
             - url: http://loki-stack:3100/loki/api/v1/push
+
   destination:
     server: https://kubernetes.default.svc
-  namespace: observability
-syncPolicy:
-  automated: { prune: true, selfHeal: true }
-  syncOptions: [ CreateNamespace=true ]
+    namespace: observability
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
