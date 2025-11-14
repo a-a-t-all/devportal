@@ -11,12 +11,12 @@ spec:
     targetRevision: 6.6.4
     helm:
       releaseName: loki-stack
-      values: |
-        loki:
-          auth_enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
   syncPolicy:
-    automated: { prune: true, selfHeal: true }
-    syncOptions: [ CreateNamespace=true ]
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
