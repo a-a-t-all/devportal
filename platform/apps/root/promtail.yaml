@@ -11,18 +11,12 @@ spec:
     targetRevision: 6.15.5
     helm:
       releaseName: promtail
-      values: |
-        config:
-          clients:
-            - url: http://loki-stack:3100/loki/api/v1/push
-
+      valueFiles:
+        - platform/values/promtail-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
-
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
