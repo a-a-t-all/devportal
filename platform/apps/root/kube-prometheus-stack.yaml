@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 66.3.0
+    helm:
+      releaseName: kube-prometheus-stack
+      values: |
+        grafana:
+          adminPassword: admin
+          service:
+            type: ClusterIP
+          additionalDataSources:
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki-stack:3100
+            - name: Tempo
+              type: tempo
+              access: proxy
+              url: http://tempo:3100
+          prometheus:
+            prometheusSpec:
+              retention: 15d
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [ CreateNamespace=true ]

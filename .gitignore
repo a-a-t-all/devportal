@@ -1,0 +1,29 @@
+# Node / JS / Backstage
+node_modules/
+dist/
+dist-*/ 
+build/
+backstage/packages/*/dist/
+backstage/app/dist/
+backstage/app/build/
+
+# Artifact junk
+*.log
+*.tmp
+*.bak
+
+# Editor / OS junk
+.DS_Store
+.idea/
+.vscode/
+
+# Yarn
+.yarn/
+.yarnrc.yml
+
+# Local environment files
+.env*
+.envrc
+
+# k3d
+k3d-*.yaml
