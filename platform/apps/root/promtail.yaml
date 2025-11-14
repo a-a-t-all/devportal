@@ -1,3 +1,8 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promtail
+  namespace: argocd
 spec:
   project: platform
   source:
@@ -7,18 +12,24 @@ spec:
     helm:
       releaseName: promtail
       values: |
-        initContainer:
-          - name: init
-            image: docker.io/busybox:1.36
-            imagePullPolicy: IfNotPresent
-            command:
-              - sh
-              - -c
-              - |
-                sysctl -w fs.inotify.max_user_instances=512 fs.inotify.max_user_watches=524288
-            securityContext:
-              privileged: true
-
         config:
           clients:
-            - url: http://loki:3100/loki/api/v1/push
+            - url: http://loki-stack:3100/loki/api/v1/push
+          scrape_configs:
+            - job_name: kubernetes-pods
+              pipeline_stages:
+                - cri: {}
+              static_configs:
+                - targets: [localhost]
+                  labels:
+                    job: kubernetes-pods
+                    __path__: /var/log/pods/*/*/*.log
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
