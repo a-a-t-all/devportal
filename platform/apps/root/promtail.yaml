@@ -12,16 +12,11 @@ spec:
     helm:
       releaseName: promtail
       values: |
-        # Use the charts built-in initContainer to bump inotify limits
-        initContainer:
-          enabled: true
-          fsInotifyMaxUserInstances: 512
-
         config:
           clients:
             - url: http://loki-stack:3100/loki/api/v1/push
 
-          # Only scrape Kubernetes pod logs (avoid scanning the whole host)
+          # Only scrape Kubernetes pod logs to keep things light
           scrape_configs:
             - job_name: kubernetes-pods
               pipeline_stages:
