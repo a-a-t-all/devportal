@@ -11,9 +11,24 @@ spec:
     targetRevision: 6.6.4
     helm:
       releaseName: loki-stack
+      values: |
+        # Run a simple, single-binary Loki for local dev
+        deploymentMode: SingleBinary
+
+        loki:
+          auth_enabled: false
+          # Minimal storage config to satisfy the chart & use local filesystem
+          storage:
+            type: filesystem
+            bucketNames:
+              chunks: loki-chunks
+              ruler: loki-ruler
+              admin: loki-admin
+
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
+
   syncPolicy:
     automated:
       prune: true
