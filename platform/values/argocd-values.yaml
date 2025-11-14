@@ -4,6 +4,13 @@ server:
   insecure: true
   extraArgs:
     - --insecure
+
 configs:
   params:
     server.insecure: true
+
+repoServer:
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: true

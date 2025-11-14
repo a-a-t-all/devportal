@@ -1,23 +1,41 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tempo
+  name: otel-collector
   namespace: argocd
 spec:
   project: platform
   source:
-    repoURL: https://grafana.github.io/helm-charts
-    chart: tempo
-    targetRevision: 1.10.3
+    repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+    chart: opentelemetry-collector
+    targetRevision: 0.98.1
     helm:
-      releaseName: tempo
+      releaseName: otel-collector
       values: |
-        tempo:
+        mode: deployment
+        image:
+          repository: otel/opentelemetry-collector-contrib
+        config:
           receivers:
             otlp:
               protocols:
                 http:
                 grpc:
+          processors:
+            batch: {}
+          exporters:
+            otlp/tempo:
+              endpoint: tempo.observability.svc.cluster.local:4317
+              tls:
+                insecure: true
+          service:
+            pipelines:
+              traces:
+                receivers: [otlp]
+                processors: [batch]
+                exporters: [otlp/tempo]
+        service:
+          type: ClusterIP
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
