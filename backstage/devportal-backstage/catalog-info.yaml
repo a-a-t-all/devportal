@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: devportal-backstage
+  description: Platform components for DevPortal
+  annotations:
+    grafana/overview-dashboard: "https://grafana.local/" # replace later
+spec:
+  type: service
+  owner: user:yourname
+  lifecycle: experimental

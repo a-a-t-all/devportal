@@ -9,3 +9,4 @@ resources:
   - tempo.yaml
   - otel-collector.yaml
   - gatekeeper.yaml
+  - grafana-dashboards.yaml

@@ -37,4 +37,4 @@ portforwards:
 	# Argo CD
 	kubectl -n argocd port-forward svc/argocd-server 8080:80 &
 	# Grafana
-	kubectl -n observability port-forward svc/kube-prometheus-stack-grafana 3000:80 &
+	kubectl -n observability port-forward svc/kube-prometheus-stack-grafana 3100:80 &

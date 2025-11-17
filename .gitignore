@@ -27,3 +27,8 @@ backstage/app/build/
 
 # k3d
 k3d-*.yaml
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+.terraform/
