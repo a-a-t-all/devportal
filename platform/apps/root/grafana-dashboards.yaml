@@ -6,7 +6,7 @@ metadata:
 spec:
   project: platform
   source:
-    repoURL: https://github.com/YOUR_GH_USER/devportal
+    repoURL: https://github.com/a-a-t-all/devportal
     targetRevision: HEAD
     path: platform/grafana
   destination:
