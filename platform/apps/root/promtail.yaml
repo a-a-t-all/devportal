@@ -12,11 +12,18 @@ spec:
     helm:
       releaseName: promtail
       values: |
+        # Run as a single Deployment instead of a DaemonSet
+        daemonset:
+          enabled: false
+        deployment:
+          enabled: true
+          replicas: 1
+
         config:
           clients:
             - url: http://loki-stack:3100/loki/api/v1/push
 
-          # Only scrape Kubernetes pod logs to keep things light
+          # Only scrape Kubernetes pod logs
           scrape_configs:
             - job_name: kubernetes-pods
               pipeline_stages:
